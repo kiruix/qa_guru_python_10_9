@@ -1,10 +1,10 @@
-from selene import browser, be, have, by
+from selene import browser, be, by
 import allure
 from allure_commons.types import Severity
 
 
 # Чистый тест на Selene
-def test_git_issue_clear_selene(browser_config):
+def test_git_issue_clear_selene():
     browser.open('https://github.com/')
     browser.element('.header-search-button').click()
     browser.element('#query-builder-test').type('kiruix/qa_guru_python_10_7').press_enter()
@@ -20,7 +20,7 @@ def test_git_issue_clear_selene(browser_config):
 @allure.feature("Git's Issue")
 @allure.story("Пользователь видит Issue")
 @allure.link("https://github.com", name="Testing")
-def test_git_issue_allure_step(browser_config):
+def test_git_issue_allure_step():
     with allure.step("Открываем главую страницу GitHub"):
         browser.open('https://github.com/')
 
@@ -37,7 +37,7 @@ def test_git_issue_allure_step(browser_config):
 
 
 # Тест с Лямбда-шагами
-def test_git_issue_lambda_allure_steps(browser_config):
+def test_git_issue_lambda_allure_steps():
     allure.dynamic.severity(Severity.CRITICAL)
     allure.dynamic.tag("web")
     allure.dynamic.feature("Git's Issue")
@@ -48,9 +48,11 @@ def test_git_issue_lambda_allure_steps(browser_config):
     find_issues_button()
     check_issues()
 
+
 @allure.step("Открываем главную страницу Github")
 def open_main_github_page():
     browser.open('https://github.com/')
+
 
 @allure.step("Ищем репозиторий")
 def find_repository():
@@ -58,9 +60,11 @@ def find_repository():
     browser.element('#query-builder-test').type('kiruix/qa_guru_python_10_7').press_enter()
     browser.element(by.link_text('kiruix/qa_guru_python_10_7')).click()
 
+
 @allure.step("Ищем репозиторий")
 def find_issues_button():
     browser.element('#issues-tab').click()
+
 
 @allure.step("Ищем репозиторий")
 def check_issues():
