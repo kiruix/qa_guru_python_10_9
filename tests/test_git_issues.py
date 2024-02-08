@@ -1,0 +1,58 @@
+from selene import browser, be, have, by
+import allure
+from allure_commons.types import Severity
+
+
+# Чистый тест на Selene
+def test_git_issue_clear_selene(browser_config):
+    browser.open('https://github.com/')
+    browser.element('.header-search-button').click()
+    browser.element('#query-builder-test').type('kiruix/qa_guru_python_10_7').press_enter()
+    browser.element(by.link_text('kiruix/qa_guru_python_10_7')).click()
+    browser.element('#issues-tab').click()
+    browser.element(by.partial_text('Welcome to issues')).should(be.visible)
+    allure.dynamic.severity(Severity.BLOCKER)
+
+
+# Шаги с декоратором @allure.step
+@allure.severity(Severity.CRITICAL)
+def test_git_issue_allure_step(browser_config):
+    with allure.step("Открываем главую страницу GitHub"):
+        browser.open('https://github.com/')
+
+    with allure.step("Ищем репозиторий"):
+        browser.element('.header-search-button').click()
+        browser.element('#query-builder-test').type('kiruix/qa_guru_python_10_7').press_enter()
+        browser.element(by.link_text('kiruix/qa_guru_python_10_7')).click()
+
+    with allure.step("Ищем Issues"):
+        browser.element('#issues-tab').click()
+
+    with allure.step("Проверяем Issues"):
+        browser.element(by.partial_text('Welcome to issues')).should(be.visible)
+
+
+# Шаги с Лямбда-шагами
+def test_git_issue_lambda_allure_steps(browser_config):
+    open_main_github_page()
+    find_repository()
+    find_issues_button()
+    check_issues()
+
+@allure.step("Открываем главную страницу Github")
+def open_main_github_page():
+    browser.open('https://github.com/')
+
+@allure.step("Ищем репозиторий")
+def find_repository():
+    browser.element('.header-search-button').click()
+    browser.element('#query-builder-test').type('kiruix/qa_guru_python_10_7').press_enter()
+    browser.element(by.link_text('kiruix/qa_guru_python_10_7')).click()
+
+@allure.step("Ищем репозиторий")
+def find_issues_button():
+    browser.element('#issues-tab').click()
+
+@allure.step("Ищем репозиторий")
+def check_issues():
+    browser.element(by.partial_text('Welcome to issues')).should(be.visible)
