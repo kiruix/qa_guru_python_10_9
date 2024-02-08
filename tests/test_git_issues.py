@@ -16,6 +16,10 @@ def test_git_issue_clear_selene(browser_config):
 
 # Шаги с декоратором @allure.step
 @allure.severity(Severity.CRITICAL)
+@allure.tag("web")
+@allure.feature("Git's Issue")
+@allure.story("Пользователь видит Issue")
+@allure.link("https://github.com", name="Testing")
 def test_git_issue_allure_step(browser_config):
     with allure.step("Открываем главую страницу GitHub"):
         browser.open('https://github.com/')
@@ -32,8 +36,13 @@ def test_git_issue_allure_step(browser_config):
         browser.element(by.partial_text('Welcome to issues')).should(be.visible)
 
 
-# Шаги с Лямбда-шагами
+# Тест с Лямбда-шагами
 def test_git_issue_lambda_allure_steps(browser_config):
+    allure.dynamic.severity(Severity.CRITICAL)
+    allure.dynamic.tag("web")
+    allure.dynamic.feature("Git's Issue")
+    allure.dynamic.story("Пользователь видит Issue")
+    allure.dynamic.link("https://github.com", name="Testing")
     open_main_github_page()
     find_repository()
     find_issues_button()
